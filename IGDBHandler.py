@@ -22,10 +22,12 @@ class IGDBHandler:
         result = self.__igdb.games(game_id)
         return Game.as_game(result.body[0])
 
-    def get_platform(self, platform_id):
-        result = self.__igdb.platforms({ "ids" : platform_id, "fields" : "name"})
-        return Platform.as_platform(result.body[0])
+    def get_platforms(self, platforms_id):
+        result = self.__igdb.platforms({ "ids" : platforms_id, "fields" : "name"})
+        platforms = [Platform.as_platform(d) for d in result.body]
+        return platforms
 
-    def get_genre(self, genre_id):
-        result = self.__igdb.genres({ "ids" : genre_id, "fields" : "name"})
-        return Genre.as_genre(result.body[0])
+    def get_genres(self, genres_id):
+        result = self.__igdb.genres({ "ids" : genres_id, "fields" : "name"})
+        genres = [Genre.as_genre(d) for d in result.body]
+        return genres
