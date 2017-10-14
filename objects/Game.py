@@ -1,4 +1,4 @@
-from Cover import Cover
+from objects.Cover import Cover
 
 
 class Game:
