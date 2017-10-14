@@ -1,3 +1,6 @@
+from Cover import Cover
+
+
 class Game:
 
     def __init__(self):
@@ -8,17 +11,19 @@ class Game:
         self.url = ""
         self.first_release_date = 0
         self.expansions = []
-        self.franchise = 0
         self.developers = []
         self.summary = ""
         self.rating = 0.0
-        self.category = 0
         self.platforms = []
-        self.tags = []
         self.websites = []
+        self.cover = ""
 
     @staticmethod
     def as_game(d):
         g = Game()
-        g.__dict__.update(d)
+        for key in d:
+            if key == "cover":
+                g.cover = Cover.as_cover(d[key])
+            else:
+               g.__dict__[key] = d[key]
         return g
