@@ -5,9 +5,12 @@ if __name__ == "__main__":
 
     game = igdb_handler.get_game(1942)
 
-    for platform in igdb_handler.get_platforms(game.platforms):
+    for platform in game.platforms:
         print(platform.name)
 
-    for genre in igdb_handler.get_genres(game.genres):
+    for genre in game.genres:
         print(genre.name)
+
+    # for expansion in game.expansions:
+    #     print(expansion.name)
 

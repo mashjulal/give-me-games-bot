@@ -19,15 +19,32 @@ class IGDBHandler:
         return json.loads(data)["key"]
 
     def get_game(self, game_id):
-        result = self.__igdb.games(game_id)
+        result = self.__igdb.games({
+            "ids":
+                game_id,
+            "fields": [
+                "name",
+                "platforms.name",
+                "genres.name",
+                "expansions.name"
+            ],
+            "expand": [
+                "game",
+                "platforms",
+                "genres",
+                "expansions"
+            ]
+        })
         return Game.as_game(result.body[0])
 
     def get_platforms(self, platforms_id):
-        result = self.__igdb.platforms({ "ids" : platforms_id, "fields" : "name"})
+        result = self.__igdb.platforms({
+            "ids": platforms_id,
+            "fields": "name"})
         platforms = [Platform.as_platform(d) for d in result.body]
         return platforms
 
     def get_genres(self, genres_id):
-        result = self.__igdb.genres({ "ids" : genres_id, "fields" : "name"})
+        result = self.__igdb.genres({"ids": genres_id, "fields": "name"})
         genres = [Genre.as_genre(d) for d in result.body]
         return genres
