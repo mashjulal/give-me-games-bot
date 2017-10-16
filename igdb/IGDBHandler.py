@@ -1,10 +1,10 @@
 import json
 
 from igdb_api_python.igdb import igdb
-
 from objects.Game import Game
-from objects.Genre import Genre
 from objects.Platform import Platform
+
+from igdb.objects.Genre import Genre
 
 
 class IGDBHandler:

@@ -153,4 +153,4 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-secret-key.json
+igdb/secret-key.json

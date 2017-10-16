@@ -1,4 +1,4 @@
-from IGDBHandler import IGDBHandler
+from igdb.IGDBHandler import IGDBHandler
 
 if __name__ == "__main__":
     igdb_handler = IGDBHandler()

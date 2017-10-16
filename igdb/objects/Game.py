@@ -1,10 +1,11 @@
 import datetime
 
 from objects.Company import Company
-from objects.Cover import Cover
 from objects.Genre import Genre
 from objects.Platform import Platform
 from objects.Website import Website
+
+from igdb.objects.Cover import Cover
 
 
 class Game:
