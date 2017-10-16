@@ -11,6 +11,6 @@ if __name__ == "__main__":
     for genre in game.genres:
         print(genre.name)
 
-    # for expansion in game.expansions:
-    #     print(expansion.name)
+    for website in game.websites:
+        print(website.name, website.url)
 

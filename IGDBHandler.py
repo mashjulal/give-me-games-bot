@@ -24,9 +24,7 @@ class IGDBHandler:
                 game_id,
             "fields": [
                 "name",
-                "platforms.name",
-                "genres.name",
-                "expansions.name"
+                "websites"
             ],
             "expand": [
                 "game",

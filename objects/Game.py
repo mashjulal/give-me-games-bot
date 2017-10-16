@@ -1,6 +1,7 @@
 from objects.Cover import Cover
 from objects.Genre import Genre
 from objects.Platform import Platform
+from objects.Website import Website
 
 
 class Game:
@@ -23,6 +24,7 @@ class Game:
     @staticmethod
     def as_game(d):
         g = Game()
+        print(d)
         for key in d:
             if key == "cover":
                 g.cover = Cover.as_cover(d[key])
@@ -32,9 +34,9 @@ class Game:
             elif key == "genres":
                 for genre_dict in d[key]:
                     g.genres.append(Genre.as_genre(genre_dict))
-            # elif key == "expansions":
-            #     for game_dict in d[key]:
-            #         g.expansions.append(Game.as_game(game_dict))
+            elif key == "websites":
+                for website_dict in d[key]:
+                    g.websites.append(Website.as_website(website_dict))
             else:
                g.__dict__[key] = d[key]
         return g
