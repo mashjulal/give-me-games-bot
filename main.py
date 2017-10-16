@@ -14,3 +14,6 @@ if __name__ == "__main__":
     for website in game.websites:
         print(website.name, website.url)
 
+    for game in igdb_handler.search_game("witcher"):
+        print(game.name)
+

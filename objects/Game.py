@@ -24,7 +24,6 @@ class Game:
     @staticmethod
     def as_game(d):
         g = Game()
-        print(d)
         for key in d:
             if key == "cover":
                 g.cover = Cover.as_cover(d[key])

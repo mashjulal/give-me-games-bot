@@ -46,3 +46,19 @@ class IGDBHandler:
         result = self.__igdb.genres({"ids": genres_id, "fields": "name"})
         genres = [Genre.as_genre(d) for d in result.body]
         return genres
+
+    def search_game(self, query):
+        result = self.__igdb.games({
+            "search": query,
+            "fields": [
+                "name",
+                "websites"
+            ],
+            "expand": [
+                "game",
+                "platforms",
+                "genres",
+                "expansions"
+            ]
+        })
+        return [Game.as_game(d) for d in result.body]
