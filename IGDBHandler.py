@@ -14,7 +14,7 @@ class IGDBHandler:
         "websites",
         "first_release_date",
         "developers"
-                    ]}
+    ]}
 
     __EXPAND = {"expand": [
         "game",
@@ -22,7 +22,7 @@ class IGDBHandler:
         "genres",
         "expansions",
         "developers"
-            ]}
+    ]}
 
     def __init__(self):
         self.__igdb = igdb(self.__load_key())

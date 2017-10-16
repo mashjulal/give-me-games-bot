@@ -18,4 +18,3 @@ if __name__ == "__main__":
 
     for company in game.developers:
         print(company.name)
-
