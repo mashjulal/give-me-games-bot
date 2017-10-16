@@ -16,3 +16,6 @@ if __name__ == "__main__":
 
     print(game.first_release_date)
 
+    for company in game.developers:
+        print(company.name)
+

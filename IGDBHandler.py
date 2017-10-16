@@ -12,14 +12,16 @@ class IGDBHandler:
     __FIELDS = {"fields": [
         "name",
         "websites",
-        "first_release_date"
+        "first_release_date",
+        "developers"
                     ]}
 
     __EXPAND = {"expand": [
         "game",
         "platforms",
         "genres",
-        "expansions"
+        "expansions",
+        "developers"
             ]}
 
     def __init__(self):

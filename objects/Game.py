@@ -1,5 +1,6 @@
 import datetime
 
+from objects.Company import Company
 from objects.Cover import Cover
 from objects.Genre import Genre
 from objects.Platform import Platform
@@ -39,6 +40,9 @@ class Game:
                     g.websites.append(Website.as_website(website_dict))
             elif key == "first_release_date":
                 g.first_release_date = datetime.date.fromtimestamp(d[key] / 1000.0)
+            elif key == "developers":
+                for dev_dict in d[key]:
+                    g.developers.append(Company.as_company(dev_dict))
             else:
                g.__dict__[key] = d[key]
         return g
