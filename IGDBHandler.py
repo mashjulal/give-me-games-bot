@@ -9,6 +9,19 @@ from objects.Platform import Platform
 
 class IGDBHandler:
 
+    __FIELDS = {"fields": [
+        "name",
+        "websites",
+        "first_release_date"
+                    ]}
+
+    __EXPAND = {"expand": [
+        "game",
+        "platforms",
+        "genres",
+        "expansions"
+            ]}
+
     def __init__(self):
         self.__igdb = igdb(self.__load_key())
 
@@ -19,20 +32,11 @@ class IGDBHandler:
         return json.loads(data)["key"]
 
     def get_game(self, game_id):
-        result = self.__igdb.games({
-            "ids":
-                game_id,
-            "fields": [
-                "name",
-                "websites"
-            ],
-            "expand": [
-                "game",
-                "platforms",
-                "genres",
-                "expansions"
-            ]
-        })
+        params = {"ids": game_id}
+        params.update(IGDBHandler.__FIELDS)
+        params.update(IGDBHandler.__EXPAND)
+        result = self.__igdb.games(params)
+
         return Game.as_game(result.body[0])
 
     def get_platforms(self, platforms_id):
@@ -48,17 +52,9 @@ class IGDBHandler:
         return genres
 
     def search_game(self, query):
-        result = self.__igdb.games({
-            "search": query,
-            "fields": [
-                "name",
-                "websites"
-            ],
-            "expand": [
-                "game",
-                "platforms",
-                "genres",
-                "expansions"
-            ]
-        })
+        params = {"search": query}
+        params.update(IGDBHandler.__FIELDS)
+        params.update(IGDBHandler.__EXPAND)
+        result = self.__igdb.games(params)
+
         return [Game.as_game(d) for d in result.body]
