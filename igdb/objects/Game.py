@@ -1,9 +1,9 @@
 import datetime
 
-from objects.Company import Company
-from objects.Genre import Genre
-from objects.Platform import Platform
-from objects.Website import Website
+from igdb.objects.Company import Company
+from igdb.objects.Genre import Genre
+from igdb.objects.Platform import Platform
+from igdb.objects.Website import Website
 
 from igdb.objects.Cover import Cover
 
@@ -22,7 +22,7 @@ class Game:
         self.rating = 0.0
         self.platforms = []
         self.websites = []
-        self.cover = ""
+        self.cover = None
 
     @staticmethod
     def as_game(d):

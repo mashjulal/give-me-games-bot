@@ -1,8 +1,9 @@
 import json
 
+from config import igdb_key
 from igdb_api_python.igdb import igdb
-from objects.Game import Game
-from objects.Platform import Platform
+from igdb.objects.Game import Game
+from igdb.objects.Platform import Platform
 
 from igdb.objects.Genre import Genre
 
@@ -13,7 +14,10 @@ class IGDBHandler:
         "name",
         "websites",
         "first_release_date",
-        "developers"
+        "developers",
+        "summary",
+        "rating",
+        "cover"
     ]}
 
     __EXPAND = {"expand": [
@@ -25,13 +29,7 @@ class IGDBHandler:
     ]}
 
     def __init__(self):
-        self.__igdb = igdb(self.__load_key())
-
-    @staticmethod
-    def __load_key():
-        with open("secret-key.json") as f:
-            data = f.read()
-        return json.loads(data)["key"]
+        self.__igdb = igdb(igdb_key)
 
     def get_game(self, game_id):
         params = {"ids": game_id}
@@ -53,7 +51,7 @@ class IGDBHandler:
         genres = [Genre.as_genre(d) for d in result.body]
         return genres
 
-    def search_game(self, query):
+    def search(self, query):
         params = {"search": query}
         params.update(IGDBHandler.__FIELDS)
         params.update(IGDBHandler.__EXPAND)

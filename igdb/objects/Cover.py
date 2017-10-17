@@ -10,7 +10,7 @@ class Cover:
         c = Cover()
         for key in d:
             if key == "url":
-                c.__dict__[key] = d[key][2:]
+                c.__dict__[key] = "https:" + d[key]
             else:
                 c.__dict__[key] = d[key]
         return c
