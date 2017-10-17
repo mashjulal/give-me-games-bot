@@ -49,11 +49,12 @@ def search_game(message):
     games = __igdb_handler.search(message.text)
 
     bot.send_message(message.chat.id, "\n".join(
-        [game.name + " -> " + "/game" + str(game.id) for game in games]))
+        ["<b>{}</b>".format(game.name) +
+         " -> " + "/game" + str(game.id) for game in games]), parse_mode="HTML")
 
 
 def send_message(game, chat_id):
-    msg = game.name
+    msg = "<b>{}</b>".format(game.name)
 
     if game.summary:
         msg += "\n" + "Description: " + game.summary
@@ -62,7 +63,7 @@ def send_message(game, chat_id):
     if len(game.websites) != 0:
         msg += "\n" + "Sites: " + "\n" \
                + "\n".join(["{}: {}".format(site.name, site.url) for site in game.websites])
-    bot.send_message(chat_id, msg)
+    bot.send_message(chat_id, msg, parse_mode="HTML")
 
     if game.cover:
         req = Request(game.cover.url, headers={'User-Agent': 'Mozilla/5.0'})
