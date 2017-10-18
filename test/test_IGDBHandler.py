@@ -51,7 +51,8 @@ class TestIGDBHandler(unittest.TestCase):
                   "dangerous mountain passes, and forgotten caverns to explore."
         self.assertEqual(summary, game.summary)
 
-        genres = [[12, 'Role-playing (RPG)'], [31, 'Adventure']]
+        genres = [[12, 'Role-playing (RPG)'],
+                  [31, 'Adventure']]
         for i in range(len(genres)):
             expected_genre_id = genres[i][0]
             actual_genre_id = game.genres[i].id
@@ -84,7 +85,18 @@ class TestIGDBHandler(unittest.TestCase):
             self.assertEqual(expected_platform_name, actual_platform_name)
 
     def test_get_platforms(self):
-        pass
+        expected_platforms = [[48, 'PlayStation 4'],
+                     [49, 'Xbox One'],
+                     [6, 'PC (Microsoft Windows)']]
+        platforms = self._igdb_handler.get_platforms([pl[0] for pl in expected_platforms])
+        for i in range(len(platforms)):
+            expected_platform_id = expected_platforms[i][0]
+            actual_platform_id = platforms[i].id
+            self.assertEqual(expected_platform_id, actual_platform_id)
+
+            expected_platform_name = expected_platforms[i][1]
+            actual_platform_name = platforms[i].name
+            self.assertEqual(expected_platform_name, actual_platform_name)
 
     def test_get_genres(self):
         pass
