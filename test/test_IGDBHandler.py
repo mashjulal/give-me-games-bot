@@ -99,7 +99,17 @@ class TestIGDBHandler(unittest.TestCase):
             self.assertEqual(expected_platform_name, actual_platform_name)
 
     def test_get_genres(self):
-        pass
+        expected_genres = [[12, 'Role-playing (RPG)'],
+                  [31, 'Adventure']]
+        genres = self._igdb_handler.get_genres([g[0] for g in expected_genres])
+        for i in range(len(expected_genres)):
+            expected_genre_id = expected_genres[i][0]
+            actual_genre_id = genres[i].id
+            self.assertEqual(expected_genre_id, actual_genre_id)
+
+            expected_genre_name = expected_genres[i][1]
+            actual_genre_name = genres[i].name
+            self.assertEqual(expected_genre_name, actual_genre_name)
 
     def test_search(self):
         pass
