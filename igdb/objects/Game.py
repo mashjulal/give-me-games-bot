@@ -5,8 +5,6 @@ from igdb.objects.Genre import Genre
 from igdb.objects.Platform import Platform
 from igdb.objects.Website import Website
 
-from igdb.objects.Cover import Cover
-
 
 class Game:
 
@@ -22,14 +20,15 @@ class Game:
         self.rating = 0.0
         self.platforms = []
         self.websites = []
-        self.cover = None
+        self.cover_url = None
 
     @staticmethod
     def as_game(d):
         g = Game()
         for key in d:
             if key == "cover":
-                g.cover = Cover.as_cover(d[key])
+                url = "https:" + d[key]["url"].replace("/t_thumb", "")
+                g.cover_url = url
             elif key == "platforms":
                 for platform_dict in d[key]:
                     g.platforms.append(Platform.as_platform(platform_dict))

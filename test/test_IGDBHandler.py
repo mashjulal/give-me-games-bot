@@ -20,7 +20,7 @@ class TestIGDBHandler(unittest.TestCase):
         self.assertEqual("The Witcher 3: Wild Hunt", game.name)
         self.assertEqual(datetime.date(2015, 5, 19), game.first_release_date)
         self.assertEqual("https://images.igdb.com/igdb/image/upload/tri1c6vbydeosoqajwt1.jpg",
-                         game.cover.url)
+                         game.cover_url)
         self.assertEqual(98.83106585906918, game.rating)
 
         websites = [['https://www.twitch.tv/cdprojektred', 'twitch'],

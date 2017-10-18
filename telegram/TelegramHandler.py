@@ -86,5 +86,5 @@ def send_message(game, chat_id):
     bot.send_message(chat_id, msg, parse_mode="HTML")
 
     if game.cover:
-        req = Request(game.cover.url, headers={'User-Agent': 'Mozilla/5.0'})
+        req = Request(game.cover_url, headers={'User-Agent': 'Mozilla/5.0'})
         bot.send_photo(chat_id, urlopen(req).read())
