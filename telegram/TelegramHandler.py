@@ -58,7 +58,7 @@ def search_game(message):
             [Template.Game.NAME_COMMAND.format(game_name=game.name, game_id=game.id)
              for game in games])
     else:
-        msg = "Sorry, no games were found"
+        msg = "Sorry, no games were found" + utils.Emoji.SORRY
 
     bot.send_message(chat_id=message.chat.id, text=msg, parse_mode="HTML")
 
