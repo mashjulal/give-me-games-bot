@@ -5,7 +5,7 @@ import telebot
 from igdb.IGDBHandler import IGDBHandler
 from config import telegram_token
 from telegram import utils
-from telegram.utils import Template, MESSAGE_WELCOME, COMMANDS
+from telegram.utils import Template, COMMANDS, Message
 
 bot = telebot.TeleBot(telegram_token)
 __igdb_handler = IGDBHandler()
@@ -14,7 +14,7 @@ current_game = None
 
 @bot.message_handler(commands=["start"])
 def hello_user(message):
-    bot.send_message(message.chat.id, MESSAGE_WELCOME)
+    bot.send_message(message.chat.id, Message.WELCOME)
     pass
 
 
@@ -58,7 +58,7 @@ def search_game(message):
             [Template.Game.NAME_COMMAND.format(game_name=game.name, game_id=game.id)
              for game in games])
     else:
-        msg = "Sorry, no games were found" + utils.Emoji.SORRY
+        msg = Message.NO_GAMES
 
     bot.send_message(chat_id=message.chat.id, text=msg, parse_mode="HTML")
 

@@ -34,8 +34,12 @@ class Emoji:
     SORRY = u'\U0001F614'
 
 
-MESSAGE_WELCOME = "Hello, I'm a search bot who can " \
+class Message:
+
+    WELCOME = "Hello, I'm a search bot who can " \
                   "help you to choose a game for playing." \
                   "This good guys create a whole site with " \
                   "games: https://www.igdb.com. I'm getting games from them. "\
-                  "To find a game simply input it's name."  + Emoji.HELLO
+                  "To find a game simply input it's name." + Emoji.HELLO
+
+    NO_GAMES = "Sorry, no games were found." + Emoji.SORRY
