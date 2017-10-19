@@ -5,7 +5,6 @@ import telebot
 from igdb.IGDBHandler import IGDBHandler
 from config import telegram_token
 from telegram import utils
-from telegram.utils import Template, COMMANDS, Message
 
 bot = telebot.TeleBot(telegram_token)
 igdb_handler = IGDBHandler()
@@ -14,7 +13,7 @@ current_game = None
 
 @bot.message_handler(commands=["start"])
 def hello_user(message):
-    bot.send_message(message.chat.id, Message.WELCOME)
+    bot.send_message(message.chat.id, utils.Message.WELCOME)
     pass
 
 
@@ -22,7 +21,7 @@ def hello_user(message):
 def show_help(message):
     msg = "\n".join([utils.Template.Command.NAME_DESCRIPTION
                     .format(command=c, command_description=c_d)
-                     for c, c_d in sorted(COMMANDS.items())])
+                     for c, c_d in sorted(utils.COMMANDS.items())])
     bot.send_message(message.chat.id, msg)
 
 
@@ -54,28 +53,27 @@ def search_game(message):
 
     if len(games) != 0:
         msg = "\n".join(
-            [Template.Game.NAME_COMMAND.format(game_name=game.name, game_id=game.id)
+            [utils.Template.Game.NAME_COMMAND.format(game_name=game.name, game_id=game.id)
              for game in games])
     else:
-        msg = Message.NO_GAMES
+        msg = utils.Message.NO_GAMES
 
     bot.send_message(chat_id=message.chat.id, text=msg, parse_mode="HTML")
 
 
 def send_message(game, chat_id):
-    msg = Template.Game.NAME.format(game_name=game.name)
+    msg = utils.Template.Game.NAME.format(game_name=game.name)
 
     if game.summary:
-        msg += Template.Game.DESCRIPTION.format(game_summary=game.summary)
+        msg += utils.Template.Game.DESCRIPTION.format(game_summary=game.summary)
     if game.rating:
-        msg += Template.Game.RATING.format(game_rating=round(game.rating, 2))
+        msg += utils.Template.Game.RATING.format(game_rating=round(game.rating, 2))
     if len(game.websites) != 0:
-        msg += "".join([Template.Game.SITE
+        msg += "".join([utils.Template.Game.SITE
                        .format(website_name=site.name.capitalize(), website_url=site.url)
                         for site in sorted(game.websites, key=lambda w:w.name)])
-    keyboard = utils.get_game_keyboard()
     m = bot.send_message(chat_id, msg, parse_mode="HTML",
-                         reply_markup=keyboard)
+                         reply_markup=utils.Keyboard.get_game_keyboard())
     bot.register_next_step_handler(m, callback=show_more)
 
     # if game.cover:
@@ -84,7 +82,6 @@ def send_message(game, chat_id):
 
 
 def show_more(message):
-    keyboard_hider = telebot.types.ReplyKeyboardRemove()
     if not current_game:
         return
 
@@ -116,4 +113,4 @@ def show_more(message):
         bot.send_message(chat_id=message.chat.id,
                          text=msg,
                          parse_mode="HTML",
-                         reply_markup=keyboard_hider)
+                         reply_markup=utils.Keyboard.get_keyboard_hider())

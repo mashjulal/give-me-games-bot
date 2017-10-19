@@ -9,13 +9,20 @@ COMMANDS = {"/start": "show welcome message",
             "/help": "show all commands with descriptions"}
 
 
-def get_game_keyboard():
-    game_keyboard = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+class Keyboard:
 
-    for command in ["Developers", "Genres", "Platforms", "Expansions"]:
-        game_keyboard.add(types.KeyboardButton(command))
+    @staticmethod
+    def get_game_keyboard():
+        keyboard = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
 
-    return game_keyboard
+        for command in ["Developers", "Genres", "Platforms", "Expansions"]:
+            keyboard.add(types.KeyboardButton(command))
+
+        return keyboard
+
+    @staticmethod
+    def get_keyboard_hider():
+        return types.ReplyKeyboardRemove()
 
 
 class Template:
