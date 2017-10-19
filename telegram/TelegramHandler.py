@@ -8,7 +8,7 @@ from telegram import utils
 from telegram.utils import Template, COMMANDS, Message
 
 bot = telebot.TeleBot(telegram_token)
-__igdb_handler = IGDBHandler()
+igdb_handler = IGDBHandler()
 current_game = None
 
 
@@ -20,18 +20,17 @@ def hello_user(message):
 
 @bot.message_handler(commands=["help"])
 def show_help(message):
-    msg = "\n".join(["{command}: {command_description}"
-               .format(command=c, command_description=c_d)
-           for c, c_d in sorted(COMMANDS.items())])
+    msg = "\n".join([utils.Template.Command.NAME_DESCRIPTION
+                    .format(command=c, command_description=c_d)
+                     for c, c_d in sorted(COMMANDS.items())])
     bot.send_message(message.chat.id, msg)
 
 
 @bot.message_handler(commands=["random_game"])
 def get_random_game(message):
-    global __igdb_handler
     global current_game
     game_id = random.randint(1, 10000)
-    current_game = __igdb_handler.get_game(game_id)
+    current_game = igdb_handler.get_game(game_id)
 
     send_message(current_game, message.chat.id)
 
@@ -45,13 +44,13 @@ def find_game(message):
 def get_game(message):
     global current_game
     game_id = int(message.text.replace("/game", ""))
-    current_game = __igdb_handler.get_game(game_id)
+    current_game = igdb_handler.get_game(game_id)
     send_message(current_game, message.chat.id)
 
 
 @bot.message_handler(content_types=["text"])
 def search_game(message):
-    games = __igdb_handler.search(message.text)
+    games = igdb_handler.search(message.text)
 
     if len(games) != 0:
         msg = "\n".join(
@@ -72,8 +71,8 @@ def send_message(game, chat_id):
         msg += Template.Game.RATING.format(game_rating=round(game.rating, 2))
     if len(game.websites) != 0:
         msg += "".join([Template.Game.SITE
-                           .format(website_name=site.name.capitalize(), website_url=site.url)
-                            for site in sorted(game.websites, key=lambda w:w.name)])
+                       .format(website_name=site.name.capitalize(), website_url=site.url)
+                        for site in sorted(game.websites, key=lambda w:w.name)])
     keyboard = utils.get_game_keyboard()
     m = bot.send_message(chat_id, msg, parse_mode="HTML",
                          reply_markup=keyboard)

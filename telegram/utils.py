@@ -27,6 +27,9 @@ class Template:
         RATING = "\n<b>Rating: </b>{game_rating}/100"
         SITE = "\n<b>{website_name}:</b> {website_url}"
 
+    class Command:
+        NAME_DESCRIPTION = "{command}: {command_description}"
+
 
 class Emoji:
 
