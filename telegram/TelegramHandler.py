@@ -5,23 +5,7 @@ import telebot
 from igdb.IGDBHandler import IGDBHandler
 from config import telegram_token
 from telegram import utils
-
-TEMPLATE_MESSAGE_GAME_NAME = "<b>{game_name}</b>"
-TEMPLATE_MESSAGE_SHOW_GAME = "<b>{game_name}</b> -> /game{game_id}"
-TEMPLATE_MESSAGE_GAME_DESCRIPTION = "\n{game_summary}"
-TEMPLATE_MESSAGE_GAME_RATING = "\n<b>Rating: </b>{game_rating}/100"
-TEMPLATE_MESSAGE_GAME_SITE = "\n<b>{website_name}:</b> {website_url}"
-
-MESSAGE_WELCOME = "Hello, I'm a search bot who can " \
-                  "help you to choose a game for playing." \
-                  "This good guys create a whole site with " \
-                  "games: https://www.igdb.com. I'm getting games from them. " \
-                  "To find a game simply input it's name."
-
-COMMANDS = {"/start": "show welcome message",
-            "/find_game": "find games",
-            "/random_game": "show random game",
-            "/help": "show all commands with descriptions"}
+from telegram.utils import Template, MESSAGE_WELCOME, COMMANDS
 
 bot = telebot.TeleBot(telegram_token)
 __igdb_handler = IGDBHandler()
@@ -71,7 +55,7 @@ def search_game(message):
 
     if len(games) != 0:
         msg = "\n".join(
-            [TEMPLATE_MESSAGE_SHOW_GAME.format(game_name=game.name, game_id=game.id)
+            [Template.Game.NAME_COMMAND.format(game_name=game.name, game_id=game.id)
              for game in games])
     else:
         msg = "Sorry, no games were found"
@@ -80,14 +64,14 @@ def search_game(message):
 
 
 def send_message(game, chat_id):
-    msg = TEMPLATE_MESSAGE_GAME_NAME.format(game_name=game.name)
+    msg = Template.Game.NAME.format(game_name=game.name)
 
     if game.summary:
-        msg += TEMPLATE_MESSAGE_GAME_DESCRIPTION.format(game_summary=game.summary)
+        msg += Template.Game.DESCRIPTION.format(game_summary=game.summary)
     if game.rating:
-        msg += TEMPLATE_MESSAGE_GAME_RATING.format(game_rating=round(game.rating, 2))
+        msg += Template.Game.RATING.format(game_rating=round(game.rating, 2))
     if len(game.websites) != 0:
-        msg += "".join([TEMPLATE_MESSAGE_GAME_SITE
+        msg += "".join([Template.Game.SITE
                            .format(website_name=site.name.capitalize(), website_url=site.url)
                             for site in sorted(game.websites, key=lambda w:w.name)])
     keyboard = utils.get_game_keyboard()
