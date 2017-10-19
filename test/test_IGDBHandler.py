@@ -1,6 +1,8 @@
 import datetime
 import unittest
 
+import pycountry
+
 from igdb.IGDBHandler import IGDBHandler
 
 
@@ -13,6 +15,7 @@ class TestIGDBHandler(unittest.TestCase):
         super().setUpClass()
         cls._igdb_handler = IGDBHandler()
 
+    @unittest.skip
     def test_get_game(self):
         game = self._igdb_handler.get_game(1942)
 
@@ -84,6 +87,7 @@ class TestIGDBHandler(unittest.TestCase):
             actual_platform_name = game.platforms[i].name
             self.assertEqual(expected_platform_name, actual_platform_name)
 
+    @unittest.skip
     def test_get_platforms(self):
         expected_platforms = [[48, 'PlayStation 4'],
                      [49, 'Xbox One'],
@@ -98,6 +102,7 @@ class TestIGDBHandler(unittest.TestCase):
             actual_platform_name = platforms[i].name
             self.assertEqual(expected_platform_name, actual_platform_name)
 
+    @unittest.skip
     def test_get_genres(self):
         expected_genres = [[12, 'Role-playing (RPG)'],
                   [31, 'Adventure']]
@@ -111,8 +116,29 @@ class TestIGDBHandler(unittest.TestCase):
             actual_genre_name = genres[i].name
             self.assertEqual(expected_genre_name, actual_genre_name)
 
+    @unittest.skip
     def test_search(self):
         pass
+
+    def test_get_company(self):
+        company = self._igdb_handler.get_company(908)
+
+        self.assertEqual(908, company.id)
+        self.assertEqual("CD Projekt RED", company.name)
+        self.assertEqual("http://cdpred.com/", company.website)
+
+        logo_url = "https://images.igdb.com/igdb/image/upload/kiidkyvhass01fgizf4g.jpg"
+        self.assertEqual(logo_url, company.logo_url)
+
+        description = "Back here at CD Projekt RED studio we love gaming. " \
+                      "We are players and want to share our passion with everyone by" \
+                      " developing complex, non-linear and mature RPG games. " \
+                      "Way back in 2002 we started working on The Witcher, which made " \
+                      "quite some noise in 2007 â€“ getting over a hundred awards. " \
+                      "In 2011 its sequel hit the stores and was praised by critics and fans."
+        self.assertEqual(description, company.description)
+
+        self.assertEqual("Poland", company.country)
 
 
 if __name__ == "__main__":

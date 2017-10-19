@@ -2,6 +2,8 @@ import json
 
 from config import igdb_key
 from igdb_api_python.igdb import igdb
+
+from igdb.objects.Company import Company
 from igdb.objects.Game import Game
 from igdb.objects.Platform import Platform
 
@@ -9,6 +11,18 @@ from igdb.objects.Genre import Genre
 
 
 class IGDBHandler:
+
+    __COMPANY_FIELDS = {"fields": [
+        "name",
+        "logo",
+        "description",
+        "country",
+        "website"
+    ]}
+
+    __COMPANY_EXPAND = {"expand": [
+        "country"
+    ]}
 
     __FIELDS = {"fields": [
         "name",
@@ -58,3 +72,11 @@ class IGDBHandler:
         result = self.__igdb.games(params)
 
         return [Game.as_game(d) for d in result.body]
+
+    def get_company(self, company_id):
+        fields = {"ids": company_id}
+        fields.update(self.__COMPANY_FIELDS)
+        result = self.__igdb.companies(fields)
+        return Company.as_company(result.body[0])
+
+
