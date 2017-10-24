@@ -62,7 +62,7 @@ def search_game(message):
 
 
 def send_message(game, chat_id):
-    msg = utils.Template.get_game_message(game)
+    msg = utils.Template.Game.format(game)
     m = bot.send_message(chat_id, msg, parse_mode="HTML",
                          reply_markup=utils.Keyboard.get_game_keyboard(game))
     bot.register_next_step_handler(m, callback=show_more)
@@ -82,12 +82,12 @@ def show_more(message):
     if command == "Developers":
         msg = "<b>Developers:</b>\n"
         for company in current_game.developers:
-            msg += utils.Template.get_company_message(igdb_handler.get_company(company.id))
+            msg += utils.Template.Company.format(igdb_handler.get_company(company.id))
     elif command == "Genres":
         msg = "<b>Genres:</b>\n"
         genres = igdb_handler.get_genres([genre.id for genre in current_game.genres])
         for genre in genres:
-            msg += utils.Template.get_genre_message(genre)
+            msg += utils.Template.Genre.format(genre)
     elif command == "Platforms":
         msg = "<b>Platforms:</b>\n"
         for platform in current_game.platforms:
