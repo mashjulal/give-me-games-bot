@@ -62,16 +62,7 @@ def search_game(message):
 
 
 def send_message(game, chat_id):
-    msg = utils.Template.Game.NAME.format(game_name=game.name)
-
-    if game.summary:
-        msg += utils.Template.Game.DESCRIPTION.format(game_summary=game.summary)
-    if game.rating:
-        msg += utils.Template.Game.RATING.format(game_rating=round(game.rating, 2))
-    if len(game.websites) != 0:
-        msg += "".join([utils.Template.Game.SITE
-                       .format(website_name=site.name.capitalize(), website_url=site.url)
-                        for site in sorted(game.websites, key=lambda w:w.name)])
+    msg = utils.Template.get_game_message(game)
     m = bot.send_message(chat_id, msg, parse_mode="HTML",
                          reply_markup=utils.Keyboard.get_game_keyboard(game))
     bot.register_next_step_handler(m, callback=show_more)
@@ -88,12 +79,11 @@ def show_more(message):
     command = message.text
     msg = None
 
-    more_info = None
     if command == "Developers":
         msg = "<b>Developers:</b>\n"
         for company in current_game.developers:
-            msg += company.name + "\n"
-            more_info = igdb_handler.get_company(company.id)
+            msg += utils.Template.get_company_message(
+                igdb_handler.get_company(company.id))
     elif command == "Genres":
         msg = "<b>Genres:</b>\n"
         for genre in current_game.genres:
@@ -112,6 +102,6 @@ def show_more(message):
 
     if msg:
         bot.send_message(chat_id=message.chat.id,
-                         text=msg+("\n" + more_info if more_info else ""),
+                         text=msg,
                          parse_mode="HTML",
                          reply_markup=utils.Keyboard.get_keyboard_hider())

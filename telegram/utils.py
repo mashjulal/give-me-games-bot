@@ -48,8 +48,46 @@ class Template:
         RATING = "\n<b>Rating: </b>{game_rating}/100"
         SITE = "\n<b>{website_name}:</b> {website_url}"
 
+    class Company:
+        NAME = "<b>{company_name}</b>"
+        DESCRIPTION = "\n{company_summary}"
+        COUNTRY = "<b>Country:</b> {company_country}"
+        SITE = "\n<b>{website_name}:</b> {website_url}"
+
     class Command:
         NAME_DESCRIPTION = "{command}: {command_description}"
+
+    @staticmethod
+    def get_game_message(game):
+        msg = Template.Game.NAME.format(
+            game_name=game.name)
+        if game.summary:
+            msg += Template.Game.DESCRIPTION.format(
+                game_summary=game.summary)
+        if game.rating:
+            msg += Template.Game.RATING.format(
+                game_rating=round(game.rating, 2))
+        if len(game.websites) != 0:
+            msg += "".join([Template.Game.SITE.format(
+                website_name=site.name.capitalize(),
+                website_url=site.url) for site in sorted(game.websites, key=lambda w: w.name)])
+        return msg
+
+    @staticmethod
+    def get_company_message(company):
+        msg = Template.Company.NAME.format(
+            company_name=company.name)
+        if company.description:
+            msg += Template.Company.DESCRIPTION.format(
+                company_summary=company.description)
+        if company.country:
+            msg += Template.Company.COUNTRY.format(
+                company_country=company.country)
+        if company.website:
+            msg += Template.Company.SITE.format(
+                website_name=company.website.name.capitalize(),
+                website_url=company.website.url)
+        return msg
 
 
 class Emoji:
