@@ -82,13 +82,12 @@ def show_more(message):
     if command == "Developers":
         msg = "<b>Developers:</b>\n"
         for company in current_game.developers:
-            msg += utils.Template.get_company_message(
-                igdb_handler.get_company(company.id))
+            msg += utils.Template.get_company_message(igdb_handler.get_company(company.id))
     elif command == "Genres":
         msg = "<b>Genres:</b>\n"
-        for genre in current_game.genres:
-            msg += genre.name + "\n"
-            # TODO: add genre request
+        genres = igdb_handler.get_genres([genre.id for genre in current_game.genres])
+        for genre in genres:
+            msg += utils.Template.get_genre_message(genre)
     elif command == "Platforms":
         msg = "<b>Platforms:</b>\n"
         for platform in current_game.platforms:

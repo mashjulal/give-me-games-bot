@@ -1,5 +1,3 @@
-import json
-
 from config import igdb_key
 from igdb_api_python.igdb import igdb
 
@@ -42,6 +40,10 @@ class IGDBHandler:
         "developers"
     ]}
 
+    __GENRE_FIELDS = {"fields": [
+        "name"
+    ]}
+
     def __init__(self):
         self.__igdb = igdb(igdb_key)
 
@@ -61,7 +63,9 @@ class IGDBHandler:
         return platforms
 
     def get_genres(self, genres_id):
-        result = self.__igdb.genres({"ids": genres_id, "fields": "name"})
+        params = {"ids": genres_id}
+        params.update(IGDBHandler.__GENRE_FIELDS)
+        result = self.__igdb.genres(params)
         genres = [Genre.as_genre(d) for d in result.body]
         return genres
 
@@ -78,5 +82,3 @@ class IGDBHandler:
         fields.update(self.__COMPANY_FIELDS)
         result = self.__igdb.companies(fields)
         return Company.as_company(result.body[0])
-
-

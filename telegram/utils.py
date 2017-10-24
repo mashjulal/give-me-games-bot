@@ -54,6 +54,9 @@ class Template:
         COUNTRY = "<b>Country:</b> {company_country}"
         SITE = "\n<b>{website_name}:</b> {website_url}"
 
+    class Genre:
+        NAME = "<b>{genre_name}</b>"
+
     class Command:
         NAME_DESCRIPTION = "{command}: {command_description}"
 
@@ -87,6 +90,12 @@ class Template:
             msg += Template.Company.SITE.format(
                 website_name=company.website.name.capitalize(),
                 website_url=company.website.url)
+        return msg
+
+    @staticmethod
+    def get_genre_message(genre):
+        msg = Template.Genre.NAME.format(
+            genre_name=genre.name)
         return msg
 
 
