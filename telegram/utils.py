@@ -11,12 +11,26 @@ COMMANDS = {"/start": "show welcome message",
 
 class Keyboard:
 
+    BUTTON_TEXT_DEVELOPERS = "Developers"
+    BUTTON_TEXT_GENRES = "Genres"
+    BUTTON_TEXT_PLATFORMS = "Platforms"
+    BUTTON_TEXT_EXPANSIONS = "Expansions"
+
     @staticmethod
-    def get_game_keyboard():
+    def get_game_keyboard(game):
         keyboard = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
 
-        for command in ["Developers", "Genres", "Platforms", "Expansions"]:
-            keyboard.add(types.KeyboardButton(command))
+        if game.developers:
+            keyboard.add(types.ReplyKeyboardMarkup(Keyboard.BUTTON_TEXT_DEVELOPERS))
+
+        if game.genres:
+            keyboard.add(types.ReplyKeyboardMarkup(Keyboard.BUTTON_TEXT_GENRES))
+
+        if game.platforms:
+            keyboard.add(types.ReplyKeyboardMarkup(Keyboard.BUTTON_TEXT_PLATFORMS))
+
+        if game.expansions:
+            keyboard.add(types.ReplyKeyboardMarkup(Keyboard.BUTTON_TEXT_EXPANSIONS))
 
         return keyboard
 
