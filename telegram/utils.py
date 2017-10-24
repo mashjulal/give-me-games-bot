@@ -11,10 +11,10 @@ COMMANDS = {"/start": "show welcome message",
 
 class Keyboard:
 
-    BUTTON_TEXT_DEVELOPERS = "Developers"
-    BUTTON_TEXT_GENRES = "Genres"
-    BUTTON_TEXT_PLATFORMS = "Platforms"
-    BUTTON_TEXT_EXPANSIONS = "Expansions"
+    BUTTON_TEXT_DEVELOPERS = Template.Company.TITLE_DEVELOPERS
+    BUTTON_TEXT_GENRES = Template.Genre.TITLE
+    BUTTON_TEXT_PLATFORMS = Template.Platform.TITLE
+    BUTTON_TEXT_EXPANSIONS = Template.Game.TITLE_EXPANSIONS
 
     @staticmethod
     def get_game_keyboard(game):
@@ -42,6 +42,9 @@ class Keyboard:
 class Template:
 
     class Game:
+
+        TITLE_EXPANSIONS = "<b>Expansions:</b>\n"
+
         NAME = "<b>{game_name}</b>"
         NAME_COMMAND = "<b>{game_name}</b> -> /game{game_id}"
         DESCRIPTION = "\n{game_summary}"
@@ -66,6 +69,9 @@ class Template:
             return msg
 
     class Company:
+
+        TITLE_DEVELOPERS = "<b>Developers:</b>\n"
+
         NAME = "<b>{company_name}</b>"
         DESCRIPTION = "\n{company_summary}"
         COUNTRY = "<b>Country:</b> {company_country}"
@@ -88,6 +94,8 @@ class Template:
             return msg
 
     class Genre:
+        TITLE = "<b>Genres:</b>\n"
+
         NAME = "<b>{genre_name}</b>"
 
         @staticmethod
@@ -98,6 +106,14 @@ class Template:
 
     class Command:
         NAME_DESCRIPTION = "{command}: {command_description}"
+
+        DEVELOPERS = "Developers"
+        GENRES = "Genres"
+        PLATFORMS = "Platforms"
+        EXPANSIONS = "Expansions"
+
+    class Platform:
+        TITLE = "<b>Platforms:</b>\n"
 
 
 class Emoji:

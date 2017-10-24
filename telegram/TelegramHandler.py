@@ -79,22 +79,22 @@ def show_more(message):
     command = message.text
     msg = None
 
-    if command == "Developers":
-        msg = "<b>Developers:</b>\n"
+    if command == utils.Template.Command.DEVELOPERS:
+        msg = utils.Template.Company.TITLE_DEVELOPERS
         for company in current_game.developers:
             msg += utils.Template.Company.format(igdb_handler.get_company(company.id))
-    elif command == "Genres":
-        msg = "<b>Genres:</b>\n"
+    elif command == utils.Template.Command.GENRES:
+        msg = utils.Template.Genre.TITLE
         genres = igdb_handler.get_genres([genre.id for genre in current_game.genres])
         for genre in genres:
             msg += utils.Template.Genre.format(genre)
-    elif command == "Platforms":
-        msg = "<b>Platforms:</b>\n"
+    elif command == utils.Template.Command.PLATFORMS:
+        msg = utils.Template.Platform.TITLE
         for platform in current_game.platforms:
             msg += platform.name + "\n"
             # TODO: add platform request
-    elif command == "Expansions":
-        msg = "<b>Expansions:</b>\n"
+    elif command == utils.Template.Command.EXPANSIONS:
+        msg = utils.Template.Game.TITLE_EXPANSIONS
         for expansion in current_game.expansions:
             msg += expansion.name + "\n"
             # TODO: add expansion request
