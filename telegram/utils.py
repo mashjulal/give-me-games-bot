@@ -19,8 +19,6 @@ class Template:
         GENRES = "\n<b>Genres:</b> {genre_list}"
         DEVELOPERS = "\n<b>Developers:</b> {developer_list}"
 
-        NAME_COMMAND = "<b>{game_name}</b> -> /game{game_id}"
-
         @staticmethod
         def format(game):
             msg = Template.Game.NAME.format(
@@ -80,6 +78,8 @@ class Template:
     class Command:
         NAME_DESCRIPTION = "{command}: {command_description}"
 
+        NAME_COMMAND = "<b>{name}</b> -> /{command}{id}"
+
 
 class Emoji:
 
@@ -95,4 +95,4 @@ class Message:
                   "games: https://www.igdb.com. I'm getting games from them. "\
                   "To find a game simply input it's name." + Emoji.HELLO
 
-    NO_GAMES = "Sorry, no games were found." + Emoji.SORRY
+    NO_RESULT = "Sorry, no matches were found." + Emoji.SORRY

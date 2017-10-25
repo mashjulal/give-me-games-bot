@@ -10,6 +10,10 @@ from igdb.objects.Genre import Genre
 
 class IGDBHandler:
 
+    __SEARCH_FIELDS = {"fields": [
+        "name"
+    ]}
+
     __COMPANY_FIELDS = {"fields": [
         "name",
         "logo",
@@ -22,7 +26,7 @@ class IGDBHandler:
         "country"
     ]}
 
-    __FIELDS = {"fields": [
+    __GAME_FIELDS = {"fields": [
         "name",
         "websites",
         "first_release_date",
@@ -32,7 +36,7 @@ class IGDBHandler:
         "cover"
     ]}
 
-    __EXPAND = {"expand": [
+    __GAME_EXPAND = {"expand": [
         "game",
         "platforms",
         "genres",
@@ -44,13 +48,17 @@ class IGDBHandler:
         "name"
     ]}
 
+    __PLATFORM_FIELDS = {"fields": [
+        "name"
+    ]}
+
     def __init__(self):
         self.__igdb = igdb(igdb_key)
 
     def get_game(self, game_id):
         params = {"ids": game_id}
-        params.update(IGDBHandler.__FIELDS)
-        params.update(IGDBHandler.__EXPAND)
+        params.update(IGDBHandler.__GAME_FIELDS)
+        params.update(IGDBHandler.__GAME_EXPAND)
         result = self.__igdb.games(params)
 
         return Game.as_game(result.body[0])
@@ -69,13 +77,33 @@ class IGDBHandler:
         genres = [Genre.as_genre(d) for d in result.body]
         return genres
 
-    def search(self, query):
+    def search_game(self, query):
         params = {"search": query}
-        params.update(IGDBHandler.__FIELDS)
-        params.update(IGDBHandler.__EXPAND)
+        params.update(IGDBHandler.__SEARCH_FIELDS)
         result = self.__igdb.games(params)
 
         return [Game.as_game(d) for d in result.body]
+
+    def search_company(self, query):
+        params = {"search": query}
+        params.update(IGDBHandler.__SEARCH_FIELDS)
+        result = self.__igdb.companies(params)
+
+        return [Company.as_company(d) for d in result.body]
+
+    def search_genre(self, query):
+        params = {"search": query}
+        params.update(IGDBHandler.__SEARCH_FIELDS)
+        result = self.__igdb.genres(params)
+
+        return [Genre.as_genre(d) for d in result.body]
+
+    def search_platform(self, query):
+        params = {"search": query}
+        params.update(IGDBHandler.__SEARCH_FIELDS)
+        result = self.__igdb.platforms(params)
+
+        return [Platform.as_platform(d) for d in result.body]
 
     def get_company(self, company_id):
         fields = {"ids": company_id}

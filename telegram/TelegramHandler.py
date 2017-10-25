@@ -48,15 +48,42 @@ def get_game(message):
 
 
 @bot.message_handler(content_types=["text"])
-def search_game(message):
-    games = igdb_handler.search(message.text)
+def search(message):
 
-    if len(games) != 0:
-        msg = "\n".join(
-            [utils.Template.Game.NAME_COMMAND.format(game_name=game.name, game_id=game.id)
-             for game in games])
-    else:
-        msg = utils.Message.NO_GAMES
+    msg = None
+    if " " in message.text:
+        command, query = message.text.split(" ", 1)
+
+        if command == "game":
+            games = igdb_handler.search_game(query)
+            if len(games) != 0:
+                msg = "\n".join(
+                    [utils.Template.Command.NAME_COMMAND.format(
+                        name=game.name, command="game", id=game.id)
+                        for game in games])
+        elif command == "company":
+            companies = igdb_handler.search_company(query)
+            if len(companies) != 0:
+                msg = "\n".join(
+                    [utils.Template.Command.NAME_COMMAND.format(
+                        name=company.name, command="company", id=company.id)
+                        for company in companies])
+        elif command == "genre":
+            genres = igdb_handler.search_genre(query)
+            if len(genres) != 0:
+                msg = "\n".join(
+                    [utils.Template.Command.NAME_COMMAND.format(
+                        name=genre.name, command="genre", id=genre.id)
+                        for genre in genres])
+        elif command == "platform":
+            platforms = igdb_handler.search_platform(query)
+            if len(platforms) != 0:
+                msg = "\n".join(
+                    [utils.Template.Command.NAME_COMMAND.format(
+                        name=p.name, command="platform", id=p.id)
+                        for p in platforms])
+    if not msg:
+        msg = utils.Message.NO_RESULT
 
     bot.send_message(chat_id=message.chat.id, text=msg, parse_mode="HTML")
 
