@@ -37,28 +37,28 @@ def find_game(message):
     bot.send_message(message.chat.id, "Input game name:")
 
 
-@bot.message_handler(regexp="/game\\d+", content_types=["text"])
+@bot.message_handler(func=lambda c: True, regexp="/game\\d+", content_types=["text"])
 def get_game(message):
     game_id = int(message.text.replace("/game", ""))
     game = igdb_handler.get_game(game_id)
     send_message(game, message.chat.id)
 
 
-@bot.message_handler(regexp="/company\\d+", content_types=["text"])
+@bot.message_handler(func=lambda c: True, regexp="/company\\d+", content_types=["text"])
 def get_company(message):
     company_id = int(message.text.replace("/company", ""))
     company = igdb_handler.get_company(company_id)
     send_message(company, message.chat.id)
 
 
-@bot.message_handler(regexp="/genre\\d+", content_types=["text"])
+@bot.message_handler(func=lambda c: True, regexp="/genre\\d+", content_types=["text"])
 def get_genre(message):
     genre_id = int(message.text.replace("/genre", ""))
     genre = igdb_handler.get_genre(genre_id)
     send_message(genre, message.chat.id)
 
 
-@bot.message_handler(regexp="/platform\\d+", content_types=["text"])
+@bot.message_handler(func=lambda c: True, regexp="/platform\\d+", content_types=["text"])
 def get_platform(message):
     platform_id = int(message.text.replace("/platform", ""))
     platform = igdb_handler.get_platform(platform_id)
