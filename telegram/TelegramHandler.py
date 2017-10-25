@@ -63,44 +63,4 @@ def search_game(message):
 
 def send_message(game, chat_id):
     msg = utils.Template.Game.format(game)
-    m = bot.send_message(chat_id, msg, parse_mode="HTML",
-                         reply_markup=utils.Keyboard.get_game_keyboard(game))
-    bot.register_next_step_handler(m, callback=show_more)
-
-    # if game.cover:
-    #     req = Request(game.cover_url, headers={'User-Agent': 'Mozilla/5.0'})
-    #     bot.send_photo(chat_id, urlopen(req).read())
-
-
-def show_more(message):
-    if not current_game:
-        return
-
-    command = message.text
-    msg = None
-
-    if command == utils.Template.Command.DEVELOPERS:
-        msg = utils.Template.Company.TITLE_DEVELOPERS
-        for company in current_game.developers:
-            msg += utils.Template.Company.format(igdb_handler.get_company(company.id))
-    elif command == utils.Template.Command.GENRES:
-        msg = utils.Template.Genre.TITLE
-        genres = igdb_handler.get_genres([genre.id for genre in current_game.genres])
-        for genre in genres:
-            msg += utils.Template.Genre.format(genre)
-    elif command == utils.Template.Command.PLATFORMS:
-        msg = utils.Template.Platform.TITLE
-        for platform in current_game.platforms:
-            msg += platform.name + "\n"
-            # TODO: add platform request
-    elif command == utils.Template.Command.EXPANSIONS:
-        msg = utils.Template.Game.TITLE_EXPANSIONS
-        for expansion in current_game.expansions:
-            msg += expansion.name + "\n"
-            # TODO: add expansion request
-
-    if msg:
-        bot.send_message(chat_id=message.chat.id,
-                         text=msg,
-                         parse_mode="HTML",
-                         reply_markup=utils.Keyboard.get_keyboard_hider())
+    bot.send_message(chat_id, msg, parse_mode="HTML")

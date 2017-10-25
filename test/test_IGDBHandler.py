@@ -1,7 +1,6 @@
 import datetime
 import unittest
 
-import pycountry
 
 from igdb.IGDBHandler import IGDBHandler
 
