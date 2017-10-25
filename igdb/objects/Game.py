@@ -8,6 +8,14 @@ from igdb.objects.Website import Website
 
 class Game:
 
+    __NAME = "<b>{game_name}</b>"
+    __DESCRIPTION = "\n{game_summary}"
+    __RATING = "\n<b>Rating: </b>{game_rating}/100"
+    __SITE = "\n<b>{website_name}:</b> {website_url}"
+    __PLATFORMS = "\n<b>Platforms:</b> {platform_list}"
+    __GENRES = "\n<b>Genres:</b> {genre_list}"
+    __DEVELOPERS = "\n<b>Developers:</b> {developer_list}"
+
     def __init__(self):
         self.id = 0
         self.name = ""
@@ -20,16 +28,12 @@ class Game:
         self.rating = 0.0
         self.platforms = []
         self.websites = []
-        self.cover_url = None
 
     @staticmethod
     def as_game(d):
         g = Game()
         for key in d:
-            if key == "cover":
-                url = "https:" + d[key]["url"].replace("/t_thumb", "")
-                g.cover_url = url
-            elif key == "platforms":
+            if key == "platforms":
                 for platform_dict in d[key]:
                     g.platforms.append(Platform.as_platform(platform_dict))
             elif key == "genres":
@@ -44,5 +48,36 @@ class Game:
                 for dev_dict in d[key]:
                     g.developers.append(Company.as_company(dev_dict))
             else:
-               g.__dict__[key] = d[key]
+                g.__dict__[key] = d[key]
         return g
+
+    def __str__(self):
+        msg = Game.__NAME\
+            .format(game_name=self.name)
+
+        if self.summary:
+            msg += Game.__DESCRIPTION\
+                .format(game_summary=self.summary)
+
+        if self.rating:
+            msg += Game.__RATING\
+                .format(game_rating=round(self.rating, 2))
+
+        if len(self.genres) != 0:
+            msg += Game.__GENRES\
+                .format(genre_list=", ".join([g.name for g in self.genres]))
+
+        if len(self.platforms) != 0:
+            msg += Game.__PLATFORMS\
+                .format(platform_list=", ".join([p.name for p in self.platforms]))
+
+        if len(self.developers) != 0:
+            msg += Game.__DEVELOPERS\
+                .format(developer_list=", ".join([d.name for d in self.developers]))
+
+        if len(self.websites) != 0:
+            msg += "".join([Game.__SITE
+                           .format(website_name=site.name.capitalize(), website_url=site.url)
+                            for site in sorted(self.websites, key=lambda w: w.name)])
+
+        return msg

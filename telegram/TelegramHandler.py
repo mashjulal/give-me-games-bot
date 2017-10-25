@@ -8,7 +8,6 @@ from telegram import utils
 
 bot = telebot.TeleBot(telegram_token)
 igdb_handler = IGDBHandler()
-current_game = None
 
 
 @bot.message_handler(commands=["start"])
@@ -27,11 +26,10 @@ def show_help(message):
 
 @bot.message_handler(commands=["random_game"])
 def get_random_game(message):
-    global current_game
     game_id = random.randint(1, 10000)
-    current_game = igdb_handler.get_game(game_id)
+    game = igdb_handler.get_game(game_id)
 
-    send_message(current_game, message.chat.id)
+    send_message(game, message.chat.id)
 
 
 @bot.message_handler(commands=["find_game"])
@@ -41,10 +39,30 @@ def find_game(message):
 
 @bot.message_handler(regexp="/game\\d+", content_types=["text"])
 def get_game(message):
-    global current_game
     game_id = int(message.text.replace("/game", ""))
-    current_game = igdb_handler.get_game(game_id)
-    send_message(current_game, message.chat.id)
+    game = igdb_handler.get_game(game_id)
+    send_message(game, message.chat.id)
+
+
+@bot.message_handler(regexp="/company\\d+", content_types=["text"])
+def get_company(message):
+    company_id = int(message.text.replace("/company", ""))
+    company = igdb_handler.get_company(company_id)
+    send_message(company, message.chat.id)
+
+
+@bot.message_handler(regexp="/genre\\d+", content_types=["text"])
+def get_genre(message):
+    genre_id = int(message.text.replace("/genre", ""))
+    genre = igdb_handler.get_genre(genre_id)
+    send_message(genre, message.chat.id)
+
+
+@bot.message_handler(regexp="/platform\\d+", content_types=["text"])
+def get_platform(message):
+    platform_id = int(message.text.replace("/platform", ""))
+    platform = igdb_handler.get_platform(platform_id)
+    send_message(platform, message.chat.id)
 
 
 @bot.message_handler(content_types=["text"])
@@ -88,6 +106,6 @@ def search(message):
     bot.send_message(chat_id=message.chat.id, text=msg, parse_mode="HTML")
 
 
-def send_message(game, chat_id):
-    msg = utils.Template.Game.format(game)
+def send_message(obj, chat_id):
+    msg = str(obj)
     bot.send_message(chat_id, msg, parse_mode="HTML")

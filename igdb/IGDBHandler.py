@@ -49,7 +49,10 @@ class IGDBHandler:
     ]}
 
     __PLATFORM_FIELDS = {"fields": [
-        "name"
+        "name",
+        "summary",
+        "alternative_name",
+        "generation"
     ]}
 
     def __init__(self):
@@ -110,3 +113,11 @@ class IGDBHandler:
         fields.update(self.__COMPANY_FIELDS)
         result = self.__igdb.companies(fields)
         return Company.as_company(result.body[0])
+
+    def get_platform(self, platform_id):
+        result = self.get_platforms(platform_id)
+        return result[0] if len(result) else None
+
+    def get_genre(self, genre_id):
+        result = self.get_genres(genre_id)
+        return result[0] if len(result) else None
