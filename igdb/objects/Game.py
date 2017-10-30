@@ -11,10 +11,10 @@ class Game:
     __NAME = "<b>{game_name}</b>"
     __DESCRIPTION = "\n{game_summary}"
     __RATING = "\n<b>Rating: </b>{game_rating}/100"
-    __SITE = "\n<b>{website_name}:</b> {website_url}"
     __PLATFORMS = "\n<b>Platforms:</b> {platform_list}"
     __GENRES = "\n<b>Genres:</b> {genre_list}"
     __DEVELOPERS = "\n<b>Developers:</b> {developer_list}"
+    __WEBSITES = "\n<b>Websites:</b> {website_list}"
 
     def __init__(self):
         self.id = 0
@@ -76,8 +76,8 @@ class Game:
                 .format(developer_list=", ".join([d.name for d in self.developers]))
 
         if len(self.websites) != 0:
-            msg += "".join([Game.__SITE
-                           .format(website_name=site.name.capitalize(), website_url=site.url)
-                            for site in sorted(self.websites, key=lambda w: w.name)])
+            msg += Game.__WEBSITES\
+                .format(website_list=", ".join(
+                [str(site) for site in sorted(self.websites, key=lambda w: w.name)]))
 
         return msg

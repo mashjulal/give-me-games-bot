@@ -27,6 +27,7 @@ class Company:
         if self.website:
             msg += Company.__SITE.format(
                 website_url=self.website)
+
         return msg
 
     @staticmethod
